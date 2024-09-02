@@ -8,28 +8,23 @@ const Ticket = require('../models/Ticket');
 router.post('/', async (req, res) => {
     const { eventId, userId, ticketCount } = req.body;
   
-    // Validate the ObjectId format
     if (!mongoose.Types.ObjectId.isValid(eventId)) {
         return res.status(400).json({ status: 'error', message: 'Invalid event ID format' });
     }
   
-    // Find the event by ID
     const event = await Event.findById(eventId);
   
     if (!event) {
         return res.status(404).json({ status: 'error', message: 'Event not found' });
     }
   
-    // Check if there are enough tickets available
     if (event.availableTickets < ticketCount) {
         return res.status(400).json({ status: 'error', message: 'Not enough tickets available' });
     }
   
-    // Deduct the ticket count from available tickets
     event.availableTickets -= ticketCount;
     await event.save();
   
-    // Create tickets for the purchase
     for (let i = 0; i < ticketCount; i++) {
         const ticket = new Ticket({
             event: eventId,
@@ -38,8 +33,7 @@ router.post('/', async (req, res) => {
         });
         await ticket.save();
     }
-
-    // Respond with the purchase confirmation
+  
     const purchaseConfirmation = {
         purchaseId: new Date().getTime(),
         eventId,
@@ -51,5 +45,5 @@ router.post('/', async (req, res) => {
   
     res.status(201).json(purchaseConfirmation);
 });
-  
+
 module.exports = router;

@@ -8,7 +8,14 @@ const purchaseRoutes = require('./routes/purchaseRoutes');
 const purchaseHistoryRoutes = require('./routes/purchaseHistoryRoutes');
 const cors = require('cors');
 
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:3000', // Replace with the URL of your frontend
+    methods: 'GET,POST,PUT,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type,Authorization',
+    credentials: true, // If you're using credentials like cookies
+};
+  
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use('/api/events', eventRoutes);
