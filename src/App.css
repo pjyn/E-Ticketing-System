@@ -28,6 +28,24 @@
   color: #61dafb;
 }
 
+.seat-map button {
+  margin: 5px;
+  padding: 10px;
+  background-color: #ddd;
+  border: none;
+  cursor: pointer;
+}
+
+.seat-map button.selected {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.seat-map button:hover {
+  background-color: #ccc;
+}
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
